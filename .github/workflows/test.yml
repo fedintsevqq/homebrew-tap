@@ -1,0 +1,23 @@
+# Формула ставится по-настоящему: brew install --cask на Mac с Apple Silicon и на Intel
+name: test
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  install:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the cask from this tap
+        run: |
+          brew tap fedintsevqq/tap "$GITHUB_WORKSPACE"
+          brew style --cask Casks/govorilka.rb
+          brew install --cask fedintsevqq/tap/govorilka
+          test -x /Applications/Govorilka.app/Contents/MacOS/Govorilka
+          ! xattr -p com.apple.quarantine /Applications/Govorilka.app 2>/dev/null
