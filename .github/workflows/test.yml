@@ -17,7 +17,7 @@ jobs:
       - name: Install the cask from this tap
         run: |
           brew tap fedintsevqq/tap "$GITHUB_WORKSPACE"
-          brew style --cask Casks/govorilka.rb
+          brew style fedintsevqq/tap/govorilka
           brew install --cask fedintsevqq/tap/govorilka
           test -x /Applications/Govorilka.app/Contents/MacOS/Govorilka
           ! xattr -p com.apple.quarantine /Applications/Govorilka.app 2>/dev/null
